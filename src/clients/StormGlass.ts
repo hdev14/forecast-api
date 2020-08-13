@@ -1,4 +1,5 @@
 import { AxiosStatic } from 'axios'
+import Config, { IConfig } from 'config'
 
 import ClientRequestError from '../errors/ClientRequestError'
 import StormGlassResponseError from '../errors/StormGlassResponseError'
@@ -33,8 +34,9 @@ export type ForecastHourNormalized = {
   windSpeed: number;
 }
 
+const stormGlassResourceConfig: IConfig = Config.get('App.resources.StormGlass')
+
 export default class StormGlass {
-  private readonly BASE_URL = 'https://api.stormglass.io/v2/weather/point?'
   private readonly API_PARAMS =
     'swellDirection,swellHeight,swellPeriod,waveDirection,waveHeight,windDirection,windSpeed'
 
@@ -42,11 +44,14 @@ export default class StormGlass {
 
   public async fetchPoints (lat: number, lng: number): Promise<ForecastHourNormalized[]> {
     try {
+      const apiURL = stormGlassResourceConfig.get('apiURL')
+      const apiKEY = stormGlassResourceConfig.get('apiKEY')
+
       const response = await this.clientRequest.get<ForecastResponse>(
-        `${this.BASE_URL}params=${this.API_PARAMS}&source=noaa&end=1592113802&lat=${lat}&lng=${lng}`,
+        `${apiURL}weather/point?params=${this.API_PARAMS}&source=noaa&end=1592113802&lat=${lat}&lng=${lng}`,
         {
           headers: {
-            Authorization: 'fake-token'
+            Authorization: apiKEY
           }
         }
       )

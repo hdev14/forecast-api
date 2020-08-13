@@ -1,0 +1,9 @@
+{
+  "App": {
+    "resources": {
+      "StormGlass": {
+        "apiKEY": "test-api-key"
+      }
+    }
+  }
+}

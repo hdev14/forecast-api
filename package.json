@@ -8,7 +8,7 @@
     "dev": "ts-node-dev './src/index.ts'",
     "start": "npm run build && node dist/src/index.js",
     "test:functional": "jest --projects ./test --runInBand",
-    "test:unit": "jest --passWithNoTests",
+    "test:unit": "jest --passWithNoTests --watch",
     "lint": "eslint ./src ./test --ext .ts",
     "lint:fix": "eslint ./src ./test --ext .ts --fix"
   },
@@ -49,7 +49,9 @@
   },
   "dependencies": {
     "@overnightjs/core": "^1.7.4",
+    "@types/config": "0.0.36",
     "axios": "^0.19.2",
+    "config": "^3.3.1",
     "express": "^4.17.1"
   }
 }
