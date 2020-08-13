@@ -38,16 +38,20 @@ export default class StormGlass {
   constructor (private clientRequest: AxiosStatic) {}
 
   public async fetchPoints (lat: number, lng: number): Promise<ForecastHourNormalized[]> {
-    const response = await this.clientRequest.get<ForecastResponse>(
-      `${this.BASE_URL}params=${this.API_PARAMS}&source=noaa&end=1592113802&lat=${lat}&lng=${lng}`,
-      {
-        headers: {
-          Authorization: 'fake-token'
+    try {
+      const response = await this.clientRequest.get<ForecastResponse>(
+        `${this.BASE_URL}params=${this.API_PARAMS}&source=noaa&end=1592113802&lat=${lat}&lng=${lng}`,
+        {
+          headers: {
+            Authorization: 'fake-token'
+          }
         }
-      }
-    )
+      )
 
-    return this.normalizedResponse(response.data)
+      return this.normalizedResponse(response.data)
+    } catch (err) {
+      throw new Error(`Unexpected error when trying to communicate to StormGlass: ${err.message}`)
+    }
   }
 
   private normalizedResponse (forecastResponse: ForecastResponse): ForecastHourNormalized[] {
