@@ -70,4 +70,22 @@ describe('StormGlass Client', () => {
       'Unexpected error when trying to communicate to StormGlass: Rate Limit reached | 429'
     )
   })
+
+  it('should throw an error when the api key is invalid', async () => {
+    const lat = -33.792726
+    const lng = 151.289824
+    const responseErrorRateLimitReached = {
+      response: {
+        status: 401,
+        data: { errors: ['Unauthorized'] }
+      }
+    }
+
+    mockedAxios.get.mockRejectedValue(responseErrorRateLimitReached)
+    const stormGlass = new StormGlass(mockedAxios)
+
+    await expect(stormGlass.fetchPoints(lat, lng)).rejects.toThrow(
+      'Unexpected error when trying to communicate to StormGlass: Unauthorized | 401'
+    )
+  })
 })
