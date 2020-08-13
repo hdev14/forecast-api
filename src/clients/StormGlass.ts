@@ -1,5 +1,7 @@
 import { AxiosStatic } from 'axios'
 
+import ClientRequestError from '../errors/ClientRequestError'
+
 export type ForecastPoint = {
   noaa: number;
 }
@@ -50,7 +52,7 @@ export default class StormGlass {
 
       return this.normalizedResponse(response.data)
     } catch (err) {
-      throw new Error(`Unexpected error when trying to communicate to StormGlass: ${err.message}`)
+      throw new ClientRequestError(err.message)
     }
   }
 
