@@ -57,7 +57,7 @@ describe('StormGlass Client', () => {
     const lat = -33.792726
     const lng = 151.289824
     const responseErrorRateLimitReached = {
-      reponse: {
+      response: {
         status: 429,
         data: { errors: ['Rate Limit reached'] }
       }
@@ -66,7 +66,7 @@ describe('StormGlass Client', () => {
     mockedAxios.get.mockRejectedValue(responseErrorRateLimitReached)
     const stormGlass = new StormGlass(mockedAxios)
 
-    await expect(stormGlass.fetchPoints).rejects.toThrow(
+    await expect(stormGlass.fetchPoints(lat, lng)).rejects.toThrow(
       'Unexpected error when trying to communicate to StormGlass: Rate Limit reached | 429'
     )
   })

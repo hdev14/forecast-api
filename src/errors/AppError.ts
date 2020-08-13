@@ -1,4 +1,4 @@
-export default class InternalError extends Error {
+export default class AppError extends Error {
   constructor (public message: string, protected code = 500, protected description?: string) {
     super(message)
     this.name = this.constructor.name
